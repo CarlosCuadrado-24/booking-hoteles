@@ -36,9 +36,9 @@ public class Main {
                 {20, 30, 40, 12, 10}, // Hotel Costa Azul
 
                 // Apartamentos: [Sencilla, Doble, Gold, Premium, Penthouse]
-                {1, 0, 0, 0, 0},   // Apartamento Los Pinos
-                {0, 0, 0, 3, 0},    // Apartamento Vista al Mar
-                {6, 9, 12, 4, 2},     // Apartamento El Edén
+                {1, 1, 1, 1, 0},   // Apartamento Los Pinos
+                {2, 0, 0, 3, 0},    // Apartamento Vista al Mar
+                {0, 1, 1, 1, 3},     // Apartamento El Edén
 
                 // Fincas: [Sencilla, Doble, Gold, Premium, Suite]
                 {5, 8, 10, 3, 2},     // Finca La Esperanza
@@ -97,9 +97,9 @@ public class Main {
 
         do {
             System.out.println("=== Menú Principal ===");
-            System.out.println("1. opcion");
+            System.out.println("1. Buscar Alojamientos");
             System.out.println("2. opcion");
-            System.out.println("3. opcion");
+            System.out.println("3. Reservar");
             System.out.print("Elige una opción: ");
 
             opcion = scanner.nextInt();
@@ -185,57 +185,134 @@ public class Main {
     }
 
     //Requerimiento 1
-    public static void buscarHoteles(String ciudad, String alojamiento, int diaInicio, int diaFinalizacion, int cantAdultos, int cantNinos, int tipoHabitacion, int numHabitaciones,String[] nombreAlojamiento, String[] ciudadAlojamiento, String[] tipoAlojamiento, double[] calificacionAlojamiento, int[][] cantHabitacionesAlojamiento, int[] precioAlojamientos,String[][] habitaciones){
+    /*public static void buscarHoteles(String ciudad, String alojamiento, int diaInicio, int diaFinalizacion, int cantAdultos, int cantNinos, int tipoHabitacion, int numHabitaciones,String[] nombreAlojamiento, String[] ciudadAlojamiento, String[] tipoAlojamiento, double[] calificacionAlojamiento, int[][] cantHabitacionesAlojamiento, int[] precioAlojamientos,String[][] habitaciones){
 
-        String conversorNumericoAString="";
+        //String conversorNumericoAString="";
         String[][] alojamientosDisponibles = new String[12][12];
-        double precioTotal=0;
         double precioBaseHabitacion=0;
-        double descuentoOAumento = 0;
+        double[] preciosTotales = null;
 
         for(int i=0; i<cantHabitacionesAlojamiento.length; i++) {
             if (cantHabitacionesAlojamiento[i][tipoHabitacion] >= numHabitaciones && ciudad.equals(ciudadAlojamiento[i]) && alojamiento.equals(tipoAlojamiento[i])) {
                 for (int j = 0; j < habitaciones.length; j++) {
                         if (!habitaciones[j][0].equals("dia de sol")) {
 
-                            if (habitaciones[j][0].equals("hotel")) {
+                            if (habitaciones[j][0].equals("hotel") && habitaciones[j][0].equals(alojamiento)) {
                                 precioBaseHabitacion = precioAlojamientos[0];
-                            } else if (habitaciones[j][0].equals("apartamento")) {
+                                preciosTotales = CalcularTotalYDescuentosOAumentos(precioBaseHabitacion,diaInicio,diaFinalizacion,numHabitaciones);
+                            } else if (habitaciones[j][0].equals("apartamento") && habitaciones[j][0].equals(alojamiento)) {
                                 precioBaseHabitacion = precioAlojamientos[1];
-                            } else if (habitaciones[j][0].equals("finca")) {
+                                preciosTotales = CalcularTotalYDescuentosOAumentos(precioBaseHabitacion,diaInicio,diaFinalizacion,numHabitaciones);
+                            } else if (habitaciones[j][0].equals("finca") && habitaciones[j][0].equals(alojamiento)) {
                                 precioBaseHabitacion = precioAlojamientos[2];
+                                preciosTotales = CalcularTotalYDescuentosOAumentos(precioBaseHabitacion,diaInicio,diaFinalizacion,numHabitaciones);
                             }
 
-                            precioTotal = precioBaseHabitacion * numHabitaciones;
+                        }else{
 
-                            if (diaInicio >= 26 && diaFinalizacion <= 31) {
-                                descuentoOAumento = precioTotal * 0.15;
-                                descuentoOAumento = precioTotal + descuentoOAumento;
-                            } else if (diaInicio >= 10 && diaFinalizacion <= 15){
-                                descuentoOAumento = precioTotal * 0.1;
-                                descuentoOAumento = precioTotal + descuentoOAumento;
-                            }else if (diaInicio >= 5 && diaFinalizacion <= 10){
-                                descuentoOAumento = precioTotal * 0.08;
-                                descuentoOAumento = precioTotal - descuentoOAumento;
-                            }
-                    }
+                        }
                 }
-                System.out.println("Hotel: " + nombreAlojamiento[i]);
-                System.out.println("Calificacion: " + calificacionAlojamiento[i]);
-                System.out.println("precio: " + precioTotal);
-                System.out.println("precioTotal: " + descuentoOAumento);
-                System.out.println("-------------------");
-            }else{
-                /*System.out.println("canthabitaciones: "+cantHabitacionesAlojamiento[i][tipoHabitacion]);
-                System.out.println("ciudad: "+ ciudadAlojamiento[i]);*/
-            }
 
+                /*System.out.println("Hotel: " + nombreAlojamiento[i]);
+                System.out.println("Calificacion: " + calificacionAlojamiento[i]);
+                System.out.println("precio: " + preciosTotales[0]);
+                System.out.println("precioTotal: " + preciosTotales[1]);
+                System.out.println("-------------------");*/
+            //}
+
+        //}
+
+    //}
+
+    public static void buscarHoteles(String ciudad, String alojamiento, int diaInicio, int diaFinalizacion, int cantAdultos, int cantNinos, int tipoHabitacion, int numHabitaciones, String[] nombreAlojamiento, String[] ciudadAlojamiento, String[] tipoAlojamiento, double[] calificacionAlojamiento, int[][] cantHabitacionesAlojamiento, int[] precioAlojamientos, String[][] habitaciones) {
+
+        System.out.println("Buscando alojamientos...");
+        //String[][] alojamientosDisponibles = new String[12][12];
+
+        if (alojamiento.equals("dia de sol")) {
+            mostrarAlojamientosConDiaDeSol(ciudad, nombreAlojamiento, ciudadAlojamiento, tipoAlojamiento, habitaciones, alojamiento);
+            return;
         }
 
+        // Lógica general para buscar alojamientos según los parámetros
+        for (int i = 0; i < cantHabitacionesAlojamiento.length; i++) {
+            if (cantHabitacionesAlojamiento[i][tipoHabitacion] >= numHabitaciones && ciudad.equals(ciudadAlojamiento[i]) && alojamiento.equals(tipoAlojamiento[i])) {
+
+                double precioBaseHabitacion = obtenerPrecioBase(alojamiento, precioAlojamientos);
+                double[] preciosTotales = CalcularTotalYDescuentosOAumentos(precioBaseHabitacion, diaInicio, diaFinalizacion, numHabitaciones);
+
+                System.out.println("Alojamiento: " + nombreAlojamiento[i]);
+                System.out.println("Calificación: " + calificacionAlojamiento[i]);
+                System.out.println("Precio por noche: " + preciosTotales[0]);
+                System.out.println("Precio total (días): " + preciosTotales[1]);
+                System.out.println("-------------------");
+            }
+        }
     }
 
-    /*public static double CalcularDescuentosOAumentos(double precioBaseHabitacion){
+
+    private static void mostrarAlojamientosConDiaDeSol(String ciudad, String[] nombreAlojamiento, String[] ciudadAlojamiento, String[] tipoAlojamiento, String[][] habitaciones,String alojamiento) {
+        System.out.println("Alojamientos con servicio de día de sol en " + ciudad + ":");
+        for (int i = 0; i < ciudadAlojamiento.length; i++) {
+            if(ciudad.equals(ciudadAlojamiento[i])){
+                for(int j=0; j < habitaciones.length; j++){
+                    if (habitaciones[j][0].equals("dia de sol") && alojamiento.equals(tipoAlojamiento[i])) {
+                        System.out.println("Nombre: " + nombreAlojamiento[i]);
+                        System.out.println("Tipo: " + tipoAlojamiento[i]);
+                        System.out.println("Actividades: " + habitaciones[j][2]);
+                        System.out.println("Incluye almuerzo/refrigerio: " + habitaciones[j][3]);
+                        System.out.println("Precio: " + habitaciones[j][4]);
+                        System.out.println("-------------------");
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    private static double obtenerPrecioBase(String tipoAlojamiento, int[] precioAlojamientos) {
+        switch (tipoAlojamiento) {
+            case "hotel":
+                return precioAlojamientos[0];
+            case "apartamento":
+                return precioAlojamientos[1];
+            case "finca":
+                return precioAlojamientos[2];
+            default:
+                return 0;
+        }
+    }
+
+    public static double[] CalcularTotalYDescuentosOAumentos(double precioBaseHabitacion,int diaInicio, int diaFinalizacion,int numHabitaciones){
         double precioTotal=0;
-    }*/
+        double descuentoOAumento = 0;
+
+        precioTotal = precioBaseHabitacion * numHabitaciones;
+
+        if (diaInicio >= 26 && diaFinalizacion <= 31) {
+            descuentoOAumento = precioTotal * 0.15;
+            descuentoOAumento = precioTotal + descuentoOAumento;
+        } else if (diaInicio >= 10 && diaFinalizacion <= 15){
+            descuentoOAumento = precioTotal * 0.1;
+            descuentoOAumento = precioTotal + descuentoOAumento;
+        }else if (diaInicio >= 5 && diaFinalizacion <= 10){
+            descuentoOAumento = precioTotal * 0.08;
+            descuentoOAumento = precioTotal - descuentoOAumento;
+        }
+
+        /*System.out.println("-------------------");
+        System.out.println("precioBaseHabitacion: "+precioBaseHabitacion);
+        System.out.println("numHabitaciones: "+numHabitaciones);
+        System.out.println("precioTotal: "+precioTotal);
+        System.out.println("precioTotal: "+diaInicio);
+        System.out.println("precioTotal: "+diaFinalizacion);
+        System.out.println("precioTotal: "+descuentoOAumento);
+        System.out.println("-------------------");*/
+
+        double[] total = {precioTotal,descuentoOAumento};
+
+        return total;
+
+    }
 
 }
