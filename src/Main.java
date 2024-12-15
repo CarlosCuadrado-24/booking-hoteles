@@ -112,7 +112,7 @@ public class Main {
                     System.out.println("Seleccionaste la opcion 2");
                     break;
                 case 3:
-                    System.out.println("Seleccionaste la opcion 3");
+                    formularioReserva(nombreAlojamiento,ciudadAlojamiento,tipoAlojamiento,calificacionAlojamiento,cantHabitacionesAlojamiento,precioAlojamientos,habitaciones);
                     break;
                 default:
                     System.out.println("Opción no válida. Por favor, intenta de nuevo.");
@@ -121,6 +121,40 @@ public class Main {
         } while (opcion != 3);
 
         scanner.close();
+    }
+
+    public static void formularioReserva(String[] nombreAlojamiento, String[] ciudadAlojamiento, String[] tipoAlojamiento, double[] calificacionAlojamiento, int[][] cantHabitacionesAlojamiento, int[] precioAlojamientos,String[][] habitaciones){
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("=== Formulario de Reserva ===");
+        System.out.print("Ingrese su nombre: ");
+        String nombre = scanner.nextLine();
+
+        System.out.print("Ingrese su apellido: ");
+        String apellido = scanner.nextLine();
+
+        System.out.print("Ingrese su email: ");
+        String email = scanner.nextLine();
+
+        System.out.print("Ingrese su nacionalidad: ");
+        String nacionalidad = scanner.nextLine();
+
+        System.out.print("Ingrese su número de teléfono: ");
+        String telefono = scanner.nextLine();
+
+        System.out.print("Ingrese su hora aproximada de llegada: ");
+        String horaLlegada = scanner.nextLine();
+
+        System.out.print("Ingrese el nombre del alojamiento: ");
+        String alojamiento = scanner.nextLine();
+
+        System.out.print("Ingrese el tipo de habitación (0: sencilla, 1: doble, etc.): ");
+        int tipoHabitacion = scanner.nextInt();
+
+        System.out.print("Ingrese la cantidad de habitaciones: ");
+        int cantidadHabitaciones = scanner.nextInt();
+        
+
     }
 
     public static void formularioOpcion1(String[] nombreAlojamiento, String[] ciudadAlojamiento, String[] tipoAlojamiento, double[] calificacionAlojamiento, int[][] cantHabitacionesAlojamiento, int[] precioAlojamientos,String[][] habitaciones) {
@@ -184,45 +218,6 @@ public class Main {
         buscarHoteles(ciudad,alojamiento,diaInicio,diaFinalizacion,cantAdultos,cantNinos,tipoHabitacion,numHabitaciones,nombreAlojamiento,ciudadAlojamiento,tipoAlojamiento,calificacionAlojamiento,cantHabitacionesAlojamiento,precioAlojamientos,habitaciones);
     }
 
-    //Requerimiento 1
-    /*public static void buscarHoteles(String ciudad, String alojamiento, int diaInicio, int diaFinalizacion, int cantAdultos, int cantNinos, int tipoHabitacion, int numHabitaciones,String[] nombreAlojamiento, String[] ciudadAlojamiento, String[] tipoAlojamiento, double[] calificacionAlojamiento, int[][] cantHabitacionesAlojamiento, int[] precioAlojamientos,String[][] habitaciones){
-
-        //String conversorNumericoAString="";
-        String[][] alojamientosDisponibles = new String[12][12];
-        double precioBaseHabitacion=0;
-        double[] preciosTotales = null;
-
-        for(int i=0; i<cantHabitacionesAlojamiento.length; i++) {
-            if (cantHabitacionesAlojamiento[i][tipoHabitacion] >= numHabitaciones && ciudad.equals(ciudadAlojamiento[i]) && alojamiento.equals(tipoAlojamiento[i])) {
-                for (int j = 0; j < habitaciones.length; j++) {
-                        if (!habitaciones[j][0].equals("dia de sol")) {
-
-                            if (habitaciones[j][0].equals("hotel") && habitaciones[j][0].equals(alojamiento)) {
-                                precioBaseHabitacion = precioAlojamientos[0];
-                                preciosTotales = CalcularTotalYDescuentosOAumentos(precioBaseHabitacion,diaInicio,diaFinalizacion,numHabitaciones);
-                            } else if (habitaciones[j][0].equals("apartamento") && habitaciones[j][0].equals(alojamiento)) {
-                                precioBaseHabitacion = precioAlojamientos[1];
-                                preciosTotales = CalcularTotalYDescuentosOAumentos(precioBaseHabitacion,diaInicio,diaFinalizacion,numHabitaciones);
-                            } else if (habitaciones[j][0].equals("finca") && habitaciones[j][0].equals(alojamiento)) {
-                                precioBaseHabitacion = precioAlojamientos[2];
-                                preciosTotales = CalcularTotalYDescuentosOAumentos(precioBaseHabitacion,diaInicio,diaFinalizacion,numHabitaciones);
-                            }
-
-                        }else{
-
-                        }
-                }
-
-                /*System.out.println("Hotel: " + nombreAlojamiento[i]);
-                System.out.println("Calificacion: " + calificacionAlojamiento[i]);
-                System.out.println("precio: " + preciosTotales[0]);
-                System.out.println("precioTotal: " + preciosTotales[1]);
-                System.out.println("-------------------");*/
-            //}
-
-        //}
-
-    //}
 
     public static void buscarHoteles(String ciudad, String alojamiento, int diaInicio, int diaFinalizacion, int cantAdultos, int cantNinos, int tipoHabitacion, int numHabitaciones, String[] nombreAlojamiento, String[] ciudadAlojamiento, String[] tipoAlojamiento, double[] calificacionAlojamiento, int[][] cantHabitacionesAlojamiento, int[] precioAlojamientos, String[][] habitaciones) {
 
@@ -299,15 +294,6 @@ public class Main {
             descuentoOAumento = precioTotal * 0.08;
             descuentoOAumento = precioTotal - descuentoOAumento;
         }
-
-        /*System.out.println("-------------------");
-        System.out.println("precioBaseHabitacion: "+precioBaseHabitacion);
-        System.out.println("numHabitaciones: "+numHabitaciones);
-        System.out.println("precioTotal: "+precioTotal);
-        System.out.println("precioTotal: "+diaInicio);
-        System.out.println("precioTotal: "+diaFinalizacion);
-        System.out.println("precioTotal: "+descuentoOAumento);
-        System.out.println("-------------------");*/
 
         double[] total = {precioTotal,descuentoOAumento};
 
